@@ -42,31 +42,35 @@ def encode_text(text, codes):
 def calculate_bit_length(codes):
     return {char: len(code) for char, code in codes.items()}
 
+def calculate_total_bits(encoded_text):
+    return len(encoded_text)
+
 def huffman_encoding_pipeline(text):
     if not text:
-        return {}, "", {}
+        return {}, "", {}, 0
     root = build_huffman_tree(text)
     codes = build_huffman_codes(root)
     encoded_text = encode_text(text, codes)
     bit_lengths = calculate_bit_length(codes)
-    return codes, encoded_text, bit_lengths
+    total_bits = calculate_total_bits(encoded_text)
+    return codes, encoded_text, bit_lengths, total_bits
 
 # GUI Implementation
 def encode_text_gui():
     input_text = input_entry.get()
-    codes, encoded_text, bit_lengths = huffman_encoding_pipeline(input_text)
+    codes, encoded_text, bit_lengths, total_bits = huffman_encoding_pipeline(input_text)
 
     # Display codes
     codes_text = "\n".join([f"{char}: {code} ({bit_lengths[char]} bits)" for char, code in codes.items()])
     codes_label.config(text=f"Character Codes:\n{codes_text}")
 
-    # Display encoded string
-    encoded_label.config(text=f"Encoded String:\n{encoded_text}")
+    # Display encoded string and total bits
+    encoded_label.config(text=f"Encoded String:\n{encoded_text}\n\nTotal Bits: {total_bits}")
 
 # Create the GUI window
 root = tk.Tk()
 root.title("Huffman Encoding")
-root.geometry("1280x720")
+root.geometry("500x400")
 
 # Input field
 input_label = tk.Label(root, text="Enter a phrase:")
