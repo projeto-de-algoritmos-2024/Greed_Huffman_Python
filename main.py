@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import ttk
 from collections import Counter
 import heapq
 
@@ -29,7 +28,7 @@ def build_huffman_tree(text):
     return heap[0]
 
 def build_huffman_codes(node, current_code="", codes=None):
-    if codes is None:  # Inicializa um novo dicionário se não for fornecido
+    if codes is None:
         codes = {}
     if node is None:
         return
@@ -42,13 +41,35 @@ def build_huffman_codes(node, current_code="", codes=None):
 def encode_text(text, codes):
     return ''.join(codes[char] for char in text)
 
+def decode_text(encoded_text, root):
+    decoded_text = []
+    current_node = root
+    for bit in encoded_text:
+        if bit == '0':
+            current_node = current_node.left
+        else:
+            current_node = current_node.right
+
+        if current_node.char is not None:  # Chegamos a uma folha
+            decoded_text.append(current_node.char)
+            current_node = root
+
+    return ''.join(decoded_text)
+
 def calculate_bit_length(codes):
     return {char: len(code) for char, code in codes.items()}
 
 def calculate_total_bits(encoded_text):
     return len(encoded_text)
 
-def huffman_encoding_pipeline(text):
+def huffman_encoding_pipeline(text, decode=False):
+    if decode:
+        # Decodificar o texto
+        root, encoded_text = text
+        decoded_text = decode_text(encoded_text, root)
+        return decoded_text, None, None, None
+
+    # Codificar o texto
     if not text:
         return {}, "", {}, 0
     root = build_huffman_tree(text)
@@ -56,32 +77,52 @@ def huffman_encoding_pipeline(text):
     encoded_text = encode_text(text, codes)
     bit_lengths = calculate_bit_length(codes)
     total_bits = calculate_total_bits(encoded_text)
-    return codes, encoded_text, bit_lengths, total_bits
+    return root, codes, encoded_text, bit_lengths, total_bits
 
 # GUI Implementation
+huffman_root = None  # Armazena a árvore Huffman globalmente para decodificação
+
 def encode_text_gui():
+    global huffman_root
     input_text = input_entry.get()
-    codes, encoded_text, bit_lengths, total_bits = huffman_encoding_pipeline(input_text)
 
-    # Clear previous results before inserting new ones
-    codes_text_widget.config(state="normal")  # Re-enable the text widget for editing
-    codes_text_widget.delete(1.0, tk.END)  # Clear the previous content
+    try:
+        # Detectar se é uma string codificada (somente '0' e '1')
+        if all(char in '01' for char in input_text) and huffman_root:
+            # Decodificar
+            decoded_text, _, _, _ = huffman_encoding_pipeline((huffman_root, input_text), decode=True)
 
-    # Insert new codes
-    codes_text_widget.insert(tk.END, f"Character Codes:\n")
-    for char, code in codes.items():
-        codes_text_widget.insert(tk.END, f"{char}: {code} ({bit_lengths[char]} bits)\n")
-    codes_text_widget.config(state="disabled")  # Re-disable after updating
+            # Resetar os campos de "Encoded String" e "Total Bits"
+            encoded_text_widget.config(state="normal")
+            encoded_text_widget.delete(1.0, tk.END)
+            encoded_text_widget.config(state="disabled")
 
-    encoded_text_widget.config(state="normal")  # Re-enable the text widget for editing
-    encoded_text_widget.delete(1.0, tk.END)  # Clear the previous content
+            # Exibir apenas o texto decodificado
+            codes_text_widget.config(state="normal")
+            codes_text_widget.delete(1.0, tk.END)
+            codes_text_widget.insert(tk.END, f"Decoded String:\n{decoded_text}")
+            codes_text_widget.config(state="disabled")
+        else:
+            # Codificar
+            huffman_root, codes, encoded_text, bit_lengths, total_bits = huffman_encoding_pipeline(input_text)
 
-    # Insert new encoded text
-    encoded_text_widget.insert(tk.END, f"Encoded String:\n{encoded_text}\n\nTotal Bits: {total_bits}")
-    encoded_text_widget.config(state="disabled")  # Re-disable after updating
+            # Exibir os resultados da codificação
+            codes_text_widget.config(state="normal")
+            codes_text_widget.delete(1.0, tk.END)
+            codes_text_widget.insert(tk.END, f"Character Codes:\n")
+            for char, code in codes.items():
+                codes_text_widget.insert(tk.END, f"{char}: {code} ({bit_lengths[char]} bits)\n")
+            codes_text_widget.config(state="disabled")
 
-    # Re-enable the input field after encoding, allowing further modifications
-    input_entry.config(state="normal")
+            encoded_text_widget.config(state="normal")
+            encoded_text_widget.delete(1.0, tk.END)
+            encoded_text_widget.insert(tk.END, f"Encoded String:\n{encoded_text}\n\nTotal Bits: {total_bits}")
+            encoded_text_widget.config(state="disabled")
+    except Exception as e:
+        codes_text_widget.config(state="normal")
+        codes_text_widget.delete(1.0, tk.END)
+        codes_text_widget.insert(tk.END, f"Error: {str(e)}")
+        codes_text_widget.config(state="disabled")
 
 # Clear function
 def clear_fields():
@@ -99,13 +140,13 @@ root.title("Huffman Encoding")
 root.geometry("1280x720")
 
 # Input field
-input_label = tk.Label(root, text="Enter a phrase:")
+input_label = tk.Label(root, text="Enter a phrase or encoded string:")
 input_label.pack(pady=10)
 input_entry = tk.Entry(root, width=50)
 input_entry.pack(pady=5)
 
 # Encode button
-encode_button = tk.Button(root, text="Encode", command=encode_text_gui)
+encode_button = tk.Button(root, text="Encode/Decode", command=encode_text_gui)
 encode_button.pack(pady=10)
 
 # Clear button
@@ -122,7 +163,7 @@ codes_text_widget.pack(side="left", fill="both", expand=True)
 codes_scrollbar = tk.Scrollbar(codes_frame, command=codes_text_widget.yview)
 codes_scrollbar.pack(side="right", fill="y")
 
-codes_text_widget.config(yscrollcommand=codes_scrollbar.set)
+codes_text_widget.config(yscrollcommand=codes_scrollbar.set, state="disabled")
 
 # Scrollable Text widget for encoded text
 encoded_frame = tk.Frame(root)
@@ -134,7 +175,7 @@ encoded_text_widget.pack(side="left", fill="both", expand=True)
 encoded_scrollbar = tk.Scrollbar(encoded_frame, command=encoded_text_widget.yview)
 encoded_scrollbar.pack(side="right", fill="y")
 
-encoded_text_widget.config(yscrollcommand=encoded_scrollbar.set)
+encoded_text_widget.config(yscrollcommand=encoded_scrollbar.set, state="disabled")
 
 # Start the GUI loop
 root.mainloop()
