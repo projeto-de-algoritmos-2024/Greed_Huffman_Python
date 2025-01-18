@@ -22,27 +22,81 @@ O objetivo do nosso projeto é implementar a compactação de strings e a valida
 
 ![Screenshoot_3](./assets/screenshot_3.png)
 
+## Vídeo
+
+[Acesse o vídeo](https://youtu.be/x1UZCURrCNI)
+
 ## Instalação 
-**Linguagem**: xxxxxx<br>
-**Framework**: (caso exista)<br>
-Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
+**Linguagem**: Python<br>
+**Sistema Operacional**: Linux<br>
 
-- No Linux, precisamos instalar o tkinter no python que já vem no sistema, com o comando.
+## Passo a passo
 
-Antes de instalar, verificar se já tem:
-
+1. Verificar se o Tkinter já está instalado
+Antes de prosseguir com a instalação, é importante verificar se o módulo tkinter já está disponível no Python instalado no sistema. Para isso, execute o seguinte comando no terminal:
+`
 python3 -m tkinter
+`
+Se nenhuma janela abrir ou ocorrer um erro, significa que o Tkinter não está instalado.
 
-Caso negativo, instale com o:
+2. Instalar o Tkinter
+Caso o Tkinter não esteja disponível, você pode instalá-lo com o seguinte comando:
+`
 sudo apt-get install python3-tk
+`
 
-após a instalação, verifique se foi instalado corretamente:
-
+3. Confirmar a Instalação
+Após a instalação, verifique novamente se o Tkinter foi configurado corretamente:
+`
 python3 -m tkinter
+`
+Uma janela deve abrir, confirmando que o Tkinter está funcionando.
 
-para executar, dentro da pasta com o arquivo main.py, use:
+4. Executar o Programa
+Navegue até o diretório onde o arquivo main.py está localizado e execute o seguinte comando para iniciar o programa:
+`
+python3 main.py
+`
 
-python3 main.py 
+**Sistema Operacional**: Windows<br>
+
+## Passo a passo
+
+1. Verificar se o Tkinter já está instalado
+Antes de prosseguir com a instalação, é importante verificar se o módulo tkinter já está disponível no Python instalado no sistema. Para isso, abra o cmd e execute o seguinte comando no terminal:
+`
+python -m tkinter
+`
+Se nenhuma janela abrir ou ocorrer um erro, significa que o Tkinter não está instalado.
+
+2. Instalar o Tkinter
+Caso o Tkinter não esteja disponível, você pode instalá-lo com o seguinte comando:
+`
+pip install tk
+`
+
+3. Confirmar a Instalação
+Após a instalação, abra o cmd e verifique novamente se o Tkinter foi configurado corretamente:
+`
+python -m tkinter
+`
+Uma janela deve abrir, confirmando que o Tkinter está funcionando.
+
+4. Executar o Programa
+Abra o cmd e navegue até o diretório onde o arquivo main.py está localizado e execute o seguinte comando para iniciar o programa:
+`
+python main.py
+`
 
 ## Uso 
-Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
+1. Na caixa de texto no topo da janela, insira uma frase ou string que deseja compactar usando o algoritmo de Huffman.
+
+2. Clique no botão "Compactar/Descompactar"
+
+3. Visualizar os Resultados
+
+4. Na caixa de texto no topo da janela, insira a sequência codificada nos resultados para verificar a veracidade da codificação
+
+5. Clique no botão "Compactar/Descompactar"
+
+6. Visualizar os Resultados
