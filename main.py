@@ -100,7 +100,7 @@ def encode_text_gui():
             # Exibir apenas o texto decodificado
             codes_text_widget.config(state="normal")
             codes_text_widget.delete(1.0, tk.END)
-            codes_text_widget.insert(tk.END, f"Decoded String:\n{decoded_text}")
+            codes_text_widget.insert(tk.END, f"String Descompactada:\n{decoded_text}")
             codes_text_widget.config(state="disabled")
         else:
             # Codificar
@@ -109,14 +109,14 @@ def encode_text_gui():
             # Exibir os resultados da codificação
             codes_text_widget.config(state="normal")
             codes_text_widget.delete(1.0, tk.END)
-            codes_text_widget.insert(tk.END, f"Character Codes:\n")
+            codes_text_widget.insert(tk.END, f"Código binário dos caracteres:\n")
             for char, code in codes.items():
                 codes_text_widget.insert(tk.END, f"{char}: {code} ({bit_lengths[char]} bits)\n")
             codes_text_widget.config(state="disabled")
 
             encoded_text_widget.config(state="normal")
             encoded_text_widget.delete(1.0, tk.END)
-            encoded_text_widget.insert(tk.END, f"Encoded String:\n{encoded_text}\n\nTotal Bits: {total_bits}")
+            encoded_text_widget.insert(tk.END, f"String Compactada:\n{encoded_text}\n\nTotal Bits: {total_bits}")
             encoded_text_widget.config(state="disabled")
     except Exception as e:
         codes_text_widget.config(state="normal")
@@ -153,7 +153,7 @@ text_area_bg = "#FFFFFF"
 text_area_fg = "#333333"
 
 # Input field
-input_label = tk.Label(root, text="Enter a phrase or encoded string:", font=label_font, bg=background_color, fg="#333")
+input_label = tk.Label(root, text="Insira uma frase ou uma string codificada:", font=label_font, bg=background_color, fg="#333")
 input_label.pack(pady=20)
 input_entry = tk.Entry(root, width=50, font=font, relief="flat", bd=1, highlightbackground=primary_color, highlightthickness=2)
 input_entry.pack(pady=5)
@@ -162,10 +162,10 @@ input_entry.pack(pady=5)
 button_frame = tk.Frame(root, bg=background_color)
 button_frame.pack(pady=20)
 
-encode_button = tk.Button(button_frame, text="Encode/Decode", command=encode_text_gui, font=button_font, bg=button_color, fg="white", relief="raised", width=15, height=2)
+encode_button = tk.Button(button_frame, text="Compactar/Descompactar", command=encode_text_gui, font=button_font, bg=button_color, fg="white", relief="raised", width=24, height=2)
 encode_button.grid(row=0, column=0, padx=10)
 
-clear_button = tk.Button(button_frame, text="Clear", command=clear_fields, font=button_font, bg=secondary_color, fg="white", relief="raised", width=15, height=2)
+clear_button = tk.Button(button_frame, text="Limpar", command=clear_fields, font=button_font, bg=secondary_color, fg="white", relief="raised", width=24, height=2)
 clear_button.grid(row=0, column=1, padx=10)
 
 # Scrollable Text widget for codes
