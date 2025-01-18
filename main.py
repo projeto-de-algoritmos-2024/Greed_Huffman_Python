@@ -83,6 +83,16 @@ def encode_text_gui():
     # Re-enable the input field after encoding, allowing further modifications
     input_entry.config(state="normal")
 
+# Clear function
+def clear_fields():
+    input_entry.delete(0, tk.END)  # Clear the input field
+    codes_text_widget.config(state="normal")  # Re-enable the text widget for editing
+    codes_text_widget.delete(1.0, tk.END)  # Clear the previous content
+    codes_text_widget.config(state="disabled")  # Re-disable after updating
+    encoded_text_widget.config(state="normal")  # Re-enable the text widget for editing
+    encoded_text_widget.delete(1.0, tk.END)  # Clear the previous content
+    encoded_text_widget.config(state="disabled")  # Re-disable after updating
+
 # Create the GUI window
 root = tk.Tk()
 root.title("Huffman Encoding")
@@ -97,6 +107,10 @@ input_entry.pack(pady=5)
 # Encode button
 encode_button = tk.Button(root, text="Encode", command=encode_text_gui)
 encode_button.pack(pady=10)
+
+# Clear button
+clear_button = tk.Button(root, text="Clear", command=clear_fields)
+clear_button.pack(pady=5)
 
 # Scrollable Text widget for codes
 codes_frame = tk.Frame(root)
