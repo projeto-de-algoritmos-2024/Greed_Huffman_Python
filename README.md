@@ -58,6 +58,7 @@ Navegue até o diretório onde o arquivo main.py está localizado e execute o se
 python3 main.py
 `<br>
 
+## Instalação 
 **Sistema Operacional**: Windows<br>
 
 ## Passo a passo
