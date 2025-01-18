@@ -58,7 +58,8 @@ Navegue até o diretório onde o arquivo main.py está localizado e execute o se
 python3 main.py
 `<br>
 
-## Instalação 
+## Instalação
+**Linguagem**: Python<br>
 **Sistema Operacional**: Windows<br>
 
 ## Passo a passo
