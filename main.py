@@ -137,27 +137,42 @@ def clear_fields():
 # Create the GUI window
 root = tk.Tk()
 root.title("Huffman Encoding")
-root.geometry("1280x720")
+root.geometry("1600x900")
+root.config(bg="#f7f7f7")  # Soft light background color
+
+# Fonts and Colors
+font = ("Helvetica Neue", 12)
+label_font = ("Helvetica Neue", 14)
+button_font = ("Helvetica Neue", 12, "bold")
+primary_color = "#4A90E2"  # Blue
+secondary_color = "#50E3C2"  # Teal
+background_color = "#f7f7f7"
+button_color = "#4A90E2"
+error_color = "#D0021B"
+text_area_bg = "#FFFFFF"
+text_area_fg = "#333333"
 
 # Input field
-input_label = tk.Label(root, text="Enter a phrase or encoded string:")
-input_label.pack(pady=10)
-input_entry = tk.Entry(root, width=50)
+input_label = tk.Label(root, text="Enter a phrase or encoded string:", font=label_font, bg=background_color, fg="#333")
+input_label.pack(pady=20)
+input_entry = tk.Entry(root, width=50, font=font, relief="flat", bd=1, highlightbackground=primary_color, highlightthickness=2)
 input_entry.pack(pady=5)
 
-# Encode button
-encode_button = tk.Button(root, text="Encode/Decode", command=encode_text_gui)
-encode_button.pack(pady=10)
+# Buttons
+button_frame = tk.Frame(root, bg=background_color)
+button_frame.pack(pady=20)
 
-# Clear button
-clear_button = tk.Button(root, text="Clear", command=clear_fields)
-clear_button.pack(pady=5)
+encode_button = tk.Button(button_frame, text="Encode/Decode", command=encode_text_gui, font=button_font, bg=button_color, fg="white", relief="raised", width=15, height=2)
+encode_button.grid(row=0, column=0, padx=10)
+
+clear_button = tk.Button(button_frame, text="Clear", command=clear_fields, font=button_font, bg=secondary_color, fg="white", relief="raised", width=15, height=2)
+clear_button.grid(row=0, column=1, padx=10)
 
 # Scrollable Text widget for codes
 codes_frame = tk.Frame(root)
-codes_frame.pack(pady=10, fill="both", expand=True)
+codes_frame.pack(pady=20, fill="both", expand=True)
 
-codes_text_widget = tk.Text(codes_frame, wrap="word", height=10)
+codes_text_widget = tk.Text(codes_frame, wrap="word", height=10, font=font, bg=text_area_bg, fg=text_area_fg, relief="solid", bd=1, padx=10, pady=10)
 codes_text_widget.pack(side="left", fill="both", expand=True)
 
 codes_scrollbar = tk.Scrollbar(codes_frame, command=codes_text_widget.yview)
@@ -167,9 +182,9 @@ codes_text_widget.config(yscrollcommand=codes_scrollbar.set, state="disabled")
 
 # Scrollable Text widget for encoded text
 encoded_frame = tk.Frame(root)
-encoded_frame.pack(pady=10, fill="both", expand=True)
+encoded_frame.pack(pady=20, fill="both", expand=True)
 
-encoded_text_widget = tk.Text(encoded_frame, wrap="word", height=10)
+encoded_text_widget = tk.Text(encoded_frame, wrap="word", height=10, font=font, bg=text_area_bg, fg=text_area_fg, relief="solid", bd=1, padx=10, pady=10)
 encoded_text_widget.pack(side="left", fill="both", expand=True)
 
 encoded_scrollbar = tk.Scrollbar(encoded_frame, command=encoded_text_widget.yview)
